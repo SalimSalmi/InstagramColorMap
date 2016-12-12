@@ -2,7 +2,6 @@
   "name": "instagram-vis",
   "version": "0.0.0",
   "description": "Visualization of instagram photos in large cities.",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,14 +9,25 @@
     "type": "git",
     "url": "git+https://github.com/SalimSalmi/InstagramColorMap.git"
   },
-  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/SalimSalmi/InstagramColorMap/issues"
   },
   "homepage": "https://github.com/SalimSalmi/InstagramColorMap#readme",
-  "dependencies": {
+  "author": "Bojana Salim Tom",
+  "devDependencies": {
     "get-image-colors": "^1.5.1",
-    "get-image-pixels": "^1.0.1"
+    "get-image-pixels": "^1.0.1",
+    "gulp": "^3.9.1",
+    "gulp-bower": "0.0.13",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-embedlr": "^0.5.2",
+    "gulp-livereload": "^3.8.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-uglify": "^2.0.0",
+    "gulp-webserver": "^0.9.1",
+    "main-bower-files": "^2.13.1",
+    "tiny-lr": "^1.0.3"
   }
 }
