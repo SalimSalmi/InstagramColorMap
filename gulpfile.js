@@ -16,7 +16,6 @@ gulp.task('bower', function() {
 
 gulp.task('scripts', function() {
     gulp.src(['app/src/**/*.js'])
-        .pipe(browserify())
         .pipe(concat('dist.js'))
         .pipe(gulp.dest('dist/js'));
 });
@@ -53,6 +52,10 @@ gulp.task('default', ['bower', 'scripts', 'json', 'styles', 'html', 'webserver']
 
     gulp.watch('app/css/**', function(event) {
         gulp.run('styles');
+    });
+
+    gulp.watch('app/data/*.json', function(event) {
+        gulp.run('json');
     });
 
     gulp.watch('app/**/*.html', function(event) {
