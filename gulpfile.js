@@ -40,7 +40,7 @@ gulp.task('html', function() {
 });
 
 gulp.task('json', function() {
-    gulp.src("app/data/*.json")
+    gulp.src("app/data/*.{json,csv}")
         .pipe(gulp.dest('dist/data'));
 });
 
@@ -54,7 +54,7 @@ gulp.task('default', ['bower', 'scripts', 'json', 'styles', 'html', 'webserver']
         gulp.run('styles');
     });
 
-    gulp.watch('app/data/*.json', function(event) {
+    gulp.watch('app/data/*.{json,csv}', function(event) {
         gulp.run('json');
     });
 

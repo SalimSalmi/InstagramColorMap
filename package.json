@@ -16,6 +16,7 @@
   "homepage": "https://github.com/SalimSalmi/InstagramColorMap#readme",
   "author": "Bojana Salim Tom",
   "devDependencies": {
+    "csv-write-stream": "^2.0.0",
     "get-image-colors": "^1.5.1",
     "get-image-pixels": "^1.0.1",
     "gulp": "^3.9.1",

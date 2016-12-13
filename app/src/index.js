@@ -46,10 +46,13 @@
       var locations = [];
       for(var city in cities)
         locations.push([cities[city].Longitude, cities[city].Latitude])
+
       svg.selectAll("circle")
     		.data(locations).enter()
     		.append("circle")
-    		.attr("cx", function (d) { return projection(d)[0]; })
+    		.attr("cx", function (d) {
+          console.log(d);
+          return projection(d)[0]; })
     		.attr("cy", function (d) { return projection(d)[1]; })
     		.attr("r", "8px")
     		.attr("fill", "red")

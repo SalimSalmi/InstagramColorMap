@@ -1,36 +1,7 @@
 (function(){
-  var locations = [[ 139.727645764, 35.668606429 ],
-  [ 139.772742241, 35.697321105 ],
-  [ 139.768780743, 35.680852449 ],
-  [ 139.7250497, 35.672583283 ],
-  [ 139.745116667, 35.657121667 ],
-  [ 139.760597, 35.652731642 ],
-  [ 139.773003655, 35.696562486 ],
-  [ 139.708250692, 35.689946404 ],
-  [ 139.722342873, 35.671535544 ],
-  [ 139.769241667, 35.714671667 ],
-  [ 139.769825, 35.735886667 ],
-  [ 139.732870024, 35.663269396 ],
-  [ 139.730941667, 35.660391667 ],
-  [ 139.724013333, 35.692603333 ],
-  [ 139.763978333, 35.711525 ],
-  [ 139.733032115, 35.662961162 ],
-  [ 139.792757822, 35.695241339 ],
-  [ 139.775958806, 35.713886828 ],
-  [ 139.747221667, 35.658178333 ],
-  [ 139.709991667, 35.683838333 ],
-  [ 139.757251192, 35.664731929 ],
-  [ 139.769576847, 35.673335601 ],
-  [ 139.771705, 35.71597 ],
-  [ 139.762750815, 35.667599107 ],
-  [ 139.759946895, 35.716076911 ],
-  [ 139.745558333, 35.69445 ],
-  [ 139.730968113, 35.666942273 ],
-  [ 139.778060301, 35.698395429 ],
-  [ 139.734059179, 35.662180929 ],
-  [ 139.72525, 35.73658 ],
-  [ 139.719766814, 35.729877944 ],
-  [ 139.78536417, 35.6948793 ]];
+
+//city,Id,Filter,Created_Time,Longitude,Latitude,Likes,Comments,Average_Color
+
 
   var width = 1440,
       height = 810;
@@ -41,8 +12,8 @@
   height = height * scale;
 
   var projection = d3.geo.mercator()
-      .scale(120000*scale)
-      .center([139.745558333, 35.69445]);
+      .scale(300000*scale)
+      .center([139.815558333, 35.68445]);
 
   var svg = d3.select("#tokyo").append("svg")
       .attr("width", width)
@@ -54,21 +25,36 @@
   var g = svg.append("g");
 
 
-  // load and display the World map
-  d3.json("../data/tokyo2.json", function(error, topology) {
-    g.selectAll("path")
-      .data(topojson.feature(topology, topology.objects.tokyo)
-          .features)
-    .enter()
-      .append("path")
-      .attr("d", path)
+  d3.csv("../data/parsed-data.csv", function(d) {
+    if(d.city === "tokyo"){
+      return {
+        time: new Date(+d.Created_Time),
+        city: d.city,
+        location: [+d.Longitude, +d.Latitude],
+        likes: +d.Likes,
+        comments: +d.Comments,
+        color: d.Average_Color
+      };
+    }
+
+  }, function(error, rows) {
+    // load and display the tokyo map
+    d3.json("../data/tokyo2.json", function(error, topology) {
+      g.selectAll("path")
+        .data(topojson.feature(topology, topology.objects.tokyo)
+            .features)
+      .enter()
+        .append("path")
+        .attr("d", path)
 
       svg.selectAll("circle")
-    		.data(locations).enter()
-    		.append("circle")
-    		.attr("cx", function (d) { return projection(d)[0]; })
-    		.attr("cy", function (d) { return projection(d)[1]; })
-    		.attr("r", "8px")
-    		.attr("fill", "red")
+        .data(rows).enter()
+        .append("circle")
+        .attr("cx", function (d) {
+          return projection(d.location)[0]; })
+        .attr("cy", function (d) { return projection(d.location)[1]; })
+        .attr("r", "3px")
+        .attr("fill", function(d) {return d.color});
+    });
   });
 })();
