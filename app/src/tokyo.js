@@ -1,7 +1,4 @@
 (function(){
-  var width = 1440,
-      height = 810;
-
   var locations = [[ 139.727645764, 35.668606429 ],
   [ 139.772742241, 35.697321105 ],
   [ 139.768780743, 35.680852449 ],
@@ -35,9 +32,17 @@
   [ 139.719766814, 35.729877944 ],
   [ 139.78536417, 35.6948793 ]];
 
+  var width = 1440,
+      height = 810;
+
+  var scale = 0.5;
+
+  width = width * scale;
+  height = height * scale;
+
   var projection = d3.geo.mercator()
-      .scale(55000)
-      .center([139.203191, 35.850335]);
+      .scale(120000*scale)
+      .center([139.745558333, 35.69445]);
 
   var svg = d3.select("#tokyo").append("svg")
       .attr("width", width)
@@ -50,7 +55,7 @@
 
 
   // load and display the World map
-  d3.json("../data/tokyo.json", function(error, topology) {
+  d3.json("../data/tokyo2.json", function(error, topology) {
     g.selectAll("path")
       .data(topojson.feature(topology, topology.objects.tokyo)
           .features)

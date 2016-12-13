@@ -1,6 +1,4 @@
 (function(){
-  var width = 1440,
-      height = 810;
 
   var cities = { tokyo: { Longitude: 139.797171584, Latitude: 35.71781637 },
     london: { Longitude: -0.097197167, Latitude: 51.532795 },
@@ -13,8 +11,16 @@
     tehran: { Longitude: 51.3728388, Latitude: 35.6824128 },
     stockholm: { Longitude: 18.038223494, Latitude: 59.342382941 } }
 
+  var width = 1440,
+      height = 810;
+
+  var scale = 0.5;
+
+  width = width * scale;
+  height = height * scale;
+
   var projection = d3.geo.mercator()
-      .scale(250)
+      .scale(250*scale)
       .translate([width / 2, height / 1.5]);
 
   var svg = d3.select("#world").append("svg")
