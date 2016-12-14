@@ -4,20 +4,80 @@ html, body {
   width: 100%;
   background-color: #efefef;
   overflow-x: hidden;
-  padding-bottom: 50px;
+  padding-bottom: 2em;
 }
 
-svg {
+.container {
+  margin-left: 50%;
+  transform: translateX(-50%);
+  /*width : 1440px;
+  height : 810px;*/
+  width: 960px;
+}
+
+#google {
   border-radius: .5em;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
-  margin-top: 100px;
+  margin-bottom: 1em;
   margin-left: 50%;
   transform: translateX(-50%);
   background-color: white;
+  height: 450px;
+  width: 100%;
 }
 
-path {
-  stroke: white;
-  stroke-width: 0.25px;
-  fill: #ccc;
+.photos, .photos svg {
+  position: absolute;
+}
+
+ul.controls{
+  width: 100%;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+}
+
+ul.controls li{
+  font-family: verdana;
+  font-size: 14px;
+  font-weight: 200;
+  padding: .5em 1em;
+  background: white;
+  border-radius: .25em;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.colorpickers {
+  display: flex;
+  justify-content: space-between;
+}
+
+.colorpickers .colorpicker {
+  background-color: white;
+  border-radius: .25em;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: .5em 2em;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+#s .tick:last-of-type text,
+#l .tick:last-of-type text {
+  display: none;
+}
+
+.channel canvas {
+  margin: 0.5em 0;
+  width: 250px;
+  height: 1em;
 }
