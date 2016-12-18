@@ -113,6 +113,12 @@ function createGoogleMap () {
             if(bounds.lower.h > bounds.upper.h) {
               inBoundsH = bounds.lower.h < currentColor.h || bounds.upper.h > currentColor.h;
             }
+            if(bounds.lower.s > bounds.upper.s) {
+              inBoundsS = bounds.lower.s < currentColor.s || bounds.upper.s > currentColor.s;
+            }
+            if(bounds.lower.l > bounds.upper.l) {
+              inBoundsL = bounds.lower.l < currentColor.l || bounds.upper.l > currentColor.l;
+            }
 
             if (isNaN(currentColor.h)) { inBoundsH = true; }
             if (isNaN(currentColor.s)) { inBoundsS = true; }
