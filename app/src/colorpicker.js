@@ -43,6 +43,14 @@ function colorPicker(id, start, cb) {
       channels.l.scale.invert(channels.l.x)
     );
 
+    if (d.key === 'h') {
+      current = d3.hsl(
+        channels.h.scale.invert(channels.h.x),
+        channels.s.scale.invert(250),
+        channels.l.scale.invert(125)
+      );
+    }
+
     for (var x = 0, v, c; x < width; ++x) {
       if (x === d.value.x) {
         c = white;

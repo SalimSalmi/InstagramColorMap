@@ -43,6 +43,14 @@ function colorPicker(id, start, cb) {
       channels.l.scale.invert(channels.l.x)
     );
 
+    if (d.key === 'h') {
+      current = d3.hsl(
+        channels.h.scale.invert(channels.h.x),
+        channels.s.scale.invert(250),
+        channels.l.scale.invert(125)
+      );
+    }
+
     for (var x = 0, v, c; x < width; ++x) {
       if (x === d.value.x) {
         c = white;
@@ -65,6 +73,17 @@ function colorPicker(id, start, cb) {
 }
 
 function createGoogleMap () {
+
+  var cities = { tokyo: { lng: 139.797171584, lat: 35.71781637 },
+      london: { lng: -0.097197167, lat: 51.532795 },
+      newyork: { lng: -74.04198026, lat: 40.72831085 },
+      berlin: { lng: 13.373883333, lat: 52.526611667 },
+      seoul: { lng: 127.012843219, lat: 37.565160341 },
+      moscow: { lng: 37.675085361, lat: 55.753156237 },
+      paris: { lng: 2.334376506, lat: 48.861800657 },
+      rome: { lng: 12.469875229, lat: 41.890391589 },
+      tehran: { lng: 51.3728388, lat: 35.6824128 },
+      stockholm: { lng: 18.038223494, lat: 59.342382941 } }
 
   // Create the Google Map…
   var map = new google.maps.Map(d3.select("#google").node(), {
@@ -107,6 +126,7 @@ function createGoogleMap () {
     var overlay = new google.maps.OverlayView();
 
     overlay.onAdd = function() {
+      console.log("on add function called");
       var layer = d3.select(this.getPanes().overlayLayer).append("div")
           .attr("class", "photos");
 
@@ -131,6 +151,7 @@ function createGoogleMap () {
             .attr("r", 4.5)
             .attr("cx", padding)
             .attr("cy", padding)
+            .attr("stroke", "#333333")
             .attr("fill", function(d) {
               var result = inBounds(d,bounds);
               if(result > -1){
@@ -209,24 +230,14 @@ function createGoogleMap () {
 
     // Bind our overlay to the map…
     overlay.setMap(map);
-
-
   });
-
-  var cities = { tokyo: { lng: 139.797171584, lat: 35.71781637 },
-      london: { lng: -0.097197167, lat: 51.532795 },
-      newyork: { lng: -74.04198026, lat: 40.72831085 },
-      berlin: { lng: 13.373883333, lat: 52.526611667 },
-      seoul: { lng: 127.012843219, lat: 37.565160341 },
-      moscow: { lng: 37.675085361, lat: 55.753156237 },
-      paris: { lng: 2.334376506, lat: 48.861800657 },
-      rome: { lng: 12.469875229, lat: 41.890391589 },
-      tehran: { lng: 51.3728388, lat: 35.6824128 },
-      stockholm: { lng: 18.038223494, lat: 59.342382941 } }
 
   for(let city in cities) {
     d3.select( "#"+city ).on("click", function() {
-      map.setCenter(cities[city]);
+      // map.setCenter();
+      var center = new google.maps.LatLng(cities[city].lat, cities[city].lng);
+      // using global variable:
+      map.panTo(center);
     });
   }
 
