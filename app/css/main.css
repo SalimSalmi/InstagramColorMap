@@ -6,6 +6,9 @@ html, body {
   background-color: #efefef;
   overflow-x: hidden;
   box-sizing: border-box;
+  font-family: verdana;
+  font-size: 14px;
+  font-weight: 200;
 }
 
 
@@ -15,6 +18,13 @@ body {
   max-width: 1300px;
   margin-left: 50%;
   transform: translateX(-50%);
+}
+
+h1 {
+  margin: 0 0 .5em;
+  font-size: 1.5em;
+  font-weight: 200;
+  color: #444;
 }
 
 .map-container {
@@ -58,9 +68,7 @@ ul.controls{
 }
 
 ul.controls li{
-  font-family: verdana;
-  font-size: 14px;
-  font-weight: 200;
+
   padding: .5em 1em;
   background: white;
   border-radius: .25em;

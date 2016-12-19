@@ -11,6 +11,7 @@ function createGoogleMap () {
       tehran: { lng: 51.3728388, lat: 35.6824128 },
       stockholm: { lng: 18.038223494, lat: 59.342382941 } }
 
+
   // Create the Google Map…
   var map = new google.maps.Map(d3.select("#google").node(), {
     zoom: 12,
@@ -35,6 +36,15 @@ function createGoogleMap () {
     ]
   });
 
+  for(let city in cities) {
+    d3.select( "#"+city ).on("click", function() {
+      // map.setCenter();
+      var center = new google.maps.LatLng(cities[city].lat, cities[city].lng);
+      // using global variable:
+      map.panTo(center);
+    });
+  }
+
   d3.csv("../data/parsed-data.csv", function(d) {
 
     return {
@@ -52,9 +62,63 @@ function createGoogleMap () {
     var overlay = new google.maps.OverlayView();
 
     overlay.onAdd = function() {
-      console.log("on add function called");
       var layer = d3.select(this.getPanes().overlayLayer).append("div")
           .attr("class", "photos");
+
+      var bounds = {
+        lower : colorPicker("lower", 0.2, updateColor),
+        upper : colorPicker("upper", 0.8, updateColor)
+      }
+
+      function updateColor(id, hsl) {
+        bounds[id] = hsl;
+
+        layer.selectAll("svg").selectAll("circle")
+          .attr("fill", function(d) {
+            var result = inBounds(d,bounds);
+            if(result > -1){
+              return d.colors[result];
+            } else {
+              return d.colors[0];
+            }
+          })
+          .attr("opacity", function(d) {
+            if(inBounds(d, bounds) > -1){
+              return 1;
+            } else {
+              return 0;
+            }
+          });
+      };
+
+      function inBounds(d, bounds){
+        for(let i = 0; i < d.colors.length; i++){
+          var currentColor = d3.rgb(d.colors[i]).hsl();
+
+          var inBoundsH = bounds.lower.h < currentColor.h && bounds.upper.h > currentColor.h;
+          var inBoundsS = bounds.lower.s < currentColor.s && bounds.upper.s > currentColor.s;
+          var inBoundsL = bounds.lower.l < currentColor.l && bounds.upper.l > currentColor.l;
+
+          if(bounds.lower.h > bounds.upper.h) {
+            inBoundsH = bounds.lower.h < currentColor.h || bounds.upper.h > currentColor.h;
+          }
+          if(bounds.lower.s > bounds.upper.s) {
+            inBoundsS = bounds.lower.s < currentColor.s || bounds.upper.s > currentColor.s;
+          }
+          if(bounds.lower.l > bounds.upper.l) {
+            inBoundsL = bounds.lower.l < currentColor.l || bounds.upper.l > currentColor.l;
+          }
+
+          if (isNaN(currentColor.h)) { inBoundsH = true; }
+          if (isNaN(currentColor.s)) { inBoundsS = true; }
+          if (isNaN(currentColor.l)) { inBoundsL = true; }
+
+          if(inBoundsH && inBoundsS && inBoundsL) {
+            return i;
+          }
+        }
+        return -1;
+      }
 
       overlay.draw = function() {
         var projection = this.getProjection(),
@@ -62,15 +126,10 @@ function createGoogleMap () {
 
         var marker = layer.selectAll("svg")
             .data(data)
-            .each(transform) // update existing markers
+            .each(transform)
           .enter().append("svg")
             .each(transform)
             .attr("class", "marker");
-
-        var bounds = {
-          lower : colorPicker("lower", 0.2, updateColor),
-          upper : colorPicker("upper", 0.8, updateColor)
-        }
 
         // Add a circle.
         marker.append("circle")
@@ -94,56 +153,6 @@ function createGoogleMap () {
               }
             });
 
-        function updateColor(id, hsl) {
-          bounds[id] = hsl;
-
-          marker.selectAll("circle")
-            .attr("fill", function(d) {
-              var result = inBounds(d,bounds);
-              if(result > -1){
-                return d.colors[result];
-              } else {
-                return d.colors[0];
-              }
-            })
-            .attr("opacity", function(d) {
-              if(inBounds(d, bounds) > -1){
-                return 1;
-              } else {
-                return 0;
-              }
-            });
-        };
-
-        function inBounds(d, bounds){
-          for(let i = 0; i < d.colors.length; i++){
-            var currentColor = d3.rgb(d.colors[i]).hsl();
-
-            var inBoundsH = bounds.lower.h < currentColor.h && bounds.upper.h > currentColor.h;
-            var inBoundsS = bounds.lower.s < currentColor.s && bounds.upper.s > currentColor.s;
-            var inBoundsL = bounds.lower.l < currentColor.l && bounds.upper.l > currentColor.l;
-
-            if(bounds.lower.h > bounds.upper.h) {
-              inBoundsH = bounds.lower.h < currentColor.h || bounds.upper.h > currentColor.h;
-            }
-            if(bounds.lower.s > bounds.upper.s) {
-              inBoundsS = bounds.lower.s < currentColor.s || bounds.upper.s > currentColor.s;
-            }
-            if(bounds.lower.l > bounds.upper.l) {
-              inBoundsL = bounds.lower.l < currentColor.l || bounds.upper.l > currentColor.l;
-            }
-
-            if (isNaN(currentColor.h)) { inBoundsH = true; }
-            if (isNaN(currentColor.s)) { inBoundsS = true; }
-            if (isNaN(currentColor.l)) { inBoundsL = true; }
-
-            if(inBoundsH && inBoundsS && inBoundsL) {
-              return i;
-            }
-          }
-          return -1;
-        }
-
         function transform(d) {
           d = new google.maps.LatLng(d.location[1], d.location[0]);
           d = projection.fromLatLngToDivPixel(d);
@@ -157,14 +166,5 @@ function createGoogleMap () {
     // Bind our overlay to the map…
     overlay.setMap(map);
   });
-
-  for(let city in cities) {
-    d3.select( "#"+city ).on("click", function() {
-      // map.setCenter();
-      var center = new google.maps.LatLng(cities[city].lat, cities[city].lng);
-      // using global variable:
-      map.panTo(center);
-    });
-  }
 
 }
