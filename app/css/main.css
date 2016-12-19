@@ -2,28 +2,46 @@ html, body {
   padding: 0;
   margin: 0;
   width: 100%;
+  height: 100%;
   background-color: #efefef;
   overflow-x: hidden;
-  padding-bottom: 2em;
+  box-sizing: border-box;
 }
 
-.container {
+
+body {
+  display: flex;
+  flex-direction: column;
+  max-width: 1300px;
   margin-left: 50%;
   transform: translateX(-50%);
-  /*width : 1440px;
-  height : 810px;*/
-  width: 960px;
+}
+
+.map-container {
+  flex-grow: 1;
+  padding: 1em;
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  align-items: stretch;
+}
+
+.controls-container {
+  width: 100%;
+  padding: 1em 1em 0 1em;
+  box-sizing: border-box;
+}
+
+.side-controls {
+  margin-left: 1em;
+  width: 300px;
 }
 
 #google {
   border-radius: .5em;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
-  margin-bottom: 1em;
-  margin-left: 50%;
-  transform: translateX(-50%);
   background-color: white;
-  height: 450px;
-  width: 100%;
+  flex-grow: 1;
 }
 
 .photos, .photos svg {
@@ -32,6 +50,7 @@ html, body {
 
 ul.controls{
   width: 100%;
+  margin: 0;
   padding: 0;
   display: flex;
   justify-content: space-between;
@@ -49,16 +68,12 @@ ul.controls li{
   cursor: pointer;
 }
 
-.colorpickers {
-  display: flex;
-  justify-content: space-between;
-}
-
-.colorpickers .colorpicker {
+.colorpicker {
   background-color: white;
   border-radius: .25em;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
-  padding: .5em 2em;
+  padding: .5em 25px;
+  margin-bottom: 1em;
 }
 
 .axis path,
