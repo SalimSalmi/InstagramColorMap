@@ -92,6 +92,9 @@ function createGoogleMap () {
       };
 
       function inBounds(d, bounds){
+        var selected = -1;
+        var selectedDistance = -1;
+
         for(let i = 0; i < d.colors.length; i++){
           var currentColor = d3.rgb(d.colors[i]).hsl();
 
@@ -114,10 +117,22 @@ function createGoogleMap () {
           if (isNaN(currentColor.l)) { inBoundsL = true; }
 
           if(inBoundsH && inBoundsS && inBoundsL) {
-            return i;
+
+            var distanceLBH = Math.abs(currentColor.h - bounds.lower.h);
+            var distanceUBH = Math.abs(currentColor.h - bounds.upper.h);
+            var distanceLBS = Math.abs(currentColor.s - bounds.lower.s);
+            var distanceUBS = Math.abs(currentColor.s - bounds.upper.s);
+            var distanceLBL = Math.abs(currentColor.l - bounds.lower.l);
+            var distanceUBL = Math.abs(currentColor.l - bounds.upper.l);
+
+            var distance = Math.abs(distanceLBH - distanceUBH + distanceLBS - distanceUBS + distanceLBL - distanceUBL);
+
+            if(selectedDistance < 0 || selectedDistance > distance){
+              selected = i;
+            }
           }
         }
-        return -1;
+        return selected;
       }
 
       overlay.draw = function() {
