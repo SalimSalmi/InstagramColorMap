@@ -1,4 +1,4 @@
-# instagram-vis - Instagram
+# Instagram visualisation
 
 A visualisation of picture colours based on location. Main libraries used are d3 and google maps api.
 
