@@ -16,6 +16,8 @@ function colorPicker(id, start, cb) {
       .call(d3.behavior.drag().on("drag", dragged))
       .each(render);
 
+  canvas.on("click", dragged);
+
   var current = {
     h: 360*start,
     s: start,
@@ -47,6 +49,13 @@ function colorPicker(id, start, cb) {
       current = d3.hsl(
         channels.h.scale.invert(channels.h.x),
         channels.s.scale.invert(250),
+        channels.l.scale.invert(125)
+      );
+    }
+    if (d.key === 's') {
+      current = d3.hsl(
+        channels.h.scale.invert(channels.h.x),
+        channels.s.scale.invert(channels.s.x),
         channels.l.scale.invert(125)
       );
     }
