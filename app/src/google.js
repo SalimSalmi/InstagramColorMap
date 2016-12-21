@@ -42,6 +42,9 @@ function createGoogleMap () {
       var center = new google.maps.LatLng(cities[city].lat, cities[city].lng);
       // using global variable:
       map.panTo(center);
+
+      d3.selectAll("ul.controls li").classed("active", false);
+      d3.select("#"+city).classed("active", true);
     });
   }
 
