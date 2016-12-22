@@ -120,12 +120,10 @@ function createGoogleMap () {
   });
 
   for(let city in cities) {
+    // Whenever a city button is clicked pan to the location of that city.
     d3.select( "#"+city ).on("click", function() {
-      // map.setCenter();
       var center = new google.maps.LatLng(cities[city].lat, cities[city].lng);
-      // using global variable:
       map.panTo(center);
-
       d3.selectAll("ul.controls li").classed("active", false);
       d3.select("#"+city).classed("active", true);
     });
@@ -151,12 +149,17 @@ function createGoogleMap () {
       var layer = d3.select(this.getPanes().overlayLayer).append("div")
           .attr("class", "photos");
 
-        // Creating and displaying the default of the color pickers
+      // Creating and displaying the default of the color pickers
       var bounds = {
         lower : colorPicker("lower", 0.2, updateColor),
         upper : colorPicker("upper", 0.8, updateColor)
       }
 
+      /**
+       * Update the color of the points.
+       * @param id the bound that was changed.
+       * @param hsl the up to date hsl channels
+       */
       function updateColor(id, hsl) {
         bounds[id] = hsl;
 
@@ -177,7 +180,14 @@ function createGoogleMap () {
             }
           });
       };
-       // Checking the upper and lower bounds of the sliders and returning the color that is the closest to the center of the bounds
+
+      /**
+       * Checking the upper and lower bounds of the sliders and returning the
+       * color that is the closest to the center of the bounds.
+       * @param d the current point
+       * @param bounds the bounds
+       * @return id of the best color, -1 if no color within bounds
+       */
       function inBounds(d, bounds){
         var selected = -1;
         var selectedDistance = -1;
@@ -234,7 +244,7 @@ function createGoogleMap () {
             .attr("class", "marker");
 
 
-        // Add a circle.
+        // Add a circle, set the color if it's within the bounds, set opacity to 0 if it's not within the bounds.
         marker.append("circle")
             .attr("r", 4.5)
             .attr("cx", padding)
