@@ -82,7 +82,7 @@ function colorPicker(id, start, cb) {
 }
 
 function createGoogleMap () {
-
+   // Identifying the location of the 10 different cities
   var cities = { tokyo: { lng: 139.797171584, lat: 35.71781637 },
       london: { lng: -0.097197167, lat: 51.532795 },
       newyork: { lng: -74.04198026, lat: 40.72831085 },
@@ -132,7 +132,7 @@ function createGoogleMap () {
   }
 
   d3.csv("../data/parsed-data.csv", function(d) {
-
+ // Reading from the csv file and getting the variables needed
     return {
       time: new Date(+d.Created_Time),
       city: d.city,
@@ -151,6 +151,7 @@ function createGoogleMap () {
       var layer = d3.select(this.getPanes().overlayLayer).append("div")
           .attr("class", "photos");
 
+        // Creating and displaying the default of the color pickers
       var bounds = {
         lower : colorPicker("lower", 0.2, updateColor),
         upper : colorPicker("upper", 0.8, updateColor)
@@ -176,7 +177,7 @@ function createGoogleMap () {
             }
           });
       };
-
+       // Checking the upper and lower bounds of the sliders and returning the color that is the closest to the center of the bounds
       function inBounds(d, bounds){
         var selected = -1;
         var selectedDistance = -1;
@@ -232,6 +233,7 @@ function createGoogleMap () {
             .each(transform)
             .attr("class", "marker");
 
+
         // Add a circle.
         marker.append("circle")
             .attr("r", 4.5)
@@ -254,6 +256,7 @@ function createGoogleMap () {
               }
             });
 
+        // Identifying the location of the points
         function transform(d) {
           d = new google.maps.LatLng(d.location[1], d.location[0]);
           d = projection.fromLatLngToDivPixel(d);
@@ -267,5 +270,6 @@ function createGoogleMap () {
     // Bind our overlay to the map…
     overlay.setMap(map);
   });
+
 
 }
