@@ -2,11 +2,12 @@
 
 A visualisation of picture colours based on location. Main libraries used are d3 and google maps api.
 
+## Latest build
+The latest build of the project is in the dist folder. Needs to be loaded from a server (any server will do) to load the data files properly (due to cross origin request being blocked).
+
 ## Compiling and running the project
 
 Uses node and bower package managers to install libraries and run a server to serve the data files.
-
-In the dist folder an already compiled version can be found. Needs to be loaded from a server to load the data files properly (due to cross origin request being blocked).
 
 #### Install the node and bower dependencies
 ```
@@ -21,5 +22,4 @@ gulp
 ```
 
 ## Source code
-The colour extraction can be found in the lib folder.
-The main visualisation website source code is in the app folder and
+The colour extraction can be found in the lib folder. The main visualisation website source code is in the app folder. Different versions of the data files can be found in the data folder. The data file thats used for the program is in app/data.
